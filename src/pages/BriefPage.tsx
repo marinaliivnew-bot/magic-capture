@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBrief, getProject, upsertBrief, analyzeBrief } from "@/lib/api";
 import { getRooms } from "@/lib/rooms";
