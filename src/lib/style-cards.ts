@@ -1,7 +1,7 @@
 export const STYLE_CARDS = [
   { key: "scandinavian", label: "Скандинавский", query: "scandinavian interior design living room", description: "Светлое дерево, белые стены, уют и функциональность" },
   { key: "minimalism", label: "Минимализм", query: "minimalist interior design white", description: "Чистые линии, ничего лишнего, воздух и свет" },
-  { key: "classic", label: "Классика", query: "classic elegant interior design", description: "Симметрия, молдинги, благородные ткани и тёплые тона" },
+  { key: "classic", label: "Классика", query: "classic interior design molding symmetry elegant room", description: "Симметрия, молдинги, благородные ткани и тёплые тона" },
   { key: "loft", label: "Лофт", query: "loft industrial interior design", description: "Кирпич, металл, открытое пространство, индустриальный дух" },
   { key: "japandi", label: "Japandi", query: "japandi interior design wood", description: "Японский минимализм + скандинавский уют, природные текстуры" },
   { key: "eclectic", label: "Эклектика", query: "eclectic colorful interior design", description: "Микс эпох и стилей, смелые сочетания, характер" },
