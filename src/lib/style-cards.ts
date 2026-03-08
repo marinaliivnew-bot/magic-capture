@@ -1,7 +1,7 @@
 export const STYLE_CARDS = [
   { key: "scandinavian", label: "Скандинавский", query: "scandinavian interior design living room", description: "Светлое дерево, белые стены, уют и функциональность" },
   { key: "minimalism", label: "Минимализм", query: "minimalist interior design white", description: "Чистые линии, ничего лишнего, воздух и свет" },
-  { key: "classic", label: "Классика", query: "classic elegant interior design", description: "Симметрия, молдинги, благородные ткани и тёплые тона" },
+  { key: "classic", label: "Классика", query: "classic interior design molding symmetry elegant room", description: "Симметрия, молдинги, благородные ткани и тёплые тона" },
   { key: "loft", label: "Лофт", query: "loft industrial interior design", description: "Кирпич, металл, открытое пространство, индустриальный дух" },
   { key: "japandi", label: "Japandi", query: "japandi interior design wood", description: "Японский минимализм + скандинавский уют, природные текстуры" },
   { key: "eclectic", label: "Эклектика", query: "eclectic colorful interior design", description: "Микс эпох и стилей, смелые сочетания, характер" },
@@ -9,7 +9,7 @@ export const STYLE_CARDS = [
   { key: "organic", label: "Органик / Биофилия", query: "organic biophilic interior natural materials", description: "Живые растения, необработанное дерево, натуральный камень" },
   { key: "mediterranean", label: "Средиземноморский", query: "mediterranean interior white blue terracotta", description: "Терракота, арки, белые стены, тёплый свет" },
   { key: "art_deco", label: "Арт-деко", query: "art deco interior gold geometric luxury", description: "Геометрия, золото, бархат, роскошь деталей" },
-  { key: "wabi_sabi", label: "Ваби-саби", query: "wabi sabi interior japanese imperfect natural", description: "Несовершенство как красота, глина, грубые фактуры" },
+  { key: "wabi_sabi", label: "Ваби-саби", query: "wabi sabi interior design clay pottery handmade texture room", description: "Несовершенство как красота, глина, грубые фактуры" },
   { key: "contemporary", label: "Контемпорари", query: "contemporary interior design neutral warm 2024", description: "Актуальный нейтральный, без привязки к стилю" },
 ] as const;
 
