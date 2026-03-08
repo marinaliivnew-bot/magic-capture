@@ -1,0 +1,1 @@
+ALTER TABLE public.briefs ADD COLUMN IF NOT EXISTS user_refs jsonb DEFAULT '[]'::jsonb;
