@@ -1,0 +1,12 @@
+import { v4 as uuidv4 } from 'crypto';
+
+const SESSION_KEY = 'brief_session_id';
+
+export function getSessionId(): string {
+  let id = localStorage.getItem(SESSION_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(SESSION_KEY, id);
+  }
+  return id;
+}
