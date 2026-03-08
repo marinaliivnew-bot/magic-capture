@@ -138,21 +138,40 @@ const BriefPage = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => {
-              handleSave();
-              navigate(`/project/${projectId}/questions`);
+            disabled={analyzing || saving}
+            onClick={async () => {
+              if (!projectId) return;
+              await handleSave();
+              setAnalyzing(true);
+              try {
+                const briefText = BRIEF_SECTIONS.map(
+                  ({ key, label }) => `### ${label}\n${brief[key] || "(пусто)"}`
+                ).join("\n\n");
+                const context = project
+                  ? `Тип: ${project.room_type || "?"}, Размеры: ${project.dimensions_text || "?"}, Заметки: ${project.raw_input || "нет"}`
+                  : "";
+                await analyzeBrief(projectId, briefText, context);
+                toast.success("Анализ завершён!");
+                navigate(`/project/${projectId}/questions`);
+              } catch (e: any) {
+                toast.error(e.message || "Ошибка AI-анализа");
+                console.error(e);
+              } finally {
+                setAnalyzing(false);
+              }
             }}
             className="flex-1"
           >
-            <Search className="mr-2 h-4 w-4" />
-            Найти пробелы и вопросы
+            {analyzing ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <Sparkles className="mr-2 h-4 w-4" />
+            )}
+            {analyzing ? "Анализирую…" : "AI-анализ брифа"}
           </Button>
           <Button
             variant="outline"
-            onClick={() => {
-              handleSave();
-              navigate(`/project/${projectId}/board`);
-            }}
+            onClick={() => navigate(`/project/${projectId}/board`)}
             className="flex-1"
           >
             <LayoutGrid className="mr-2 h-4 w-4" />
