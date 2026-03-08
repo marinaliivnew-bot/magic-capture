@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBrief, getProject, upsertBrief, analyzeBrief } from "@/lib/api";
-import { BRIEF_SECTIONS } from "@/lib/constants";
+import { getRooms } from "@/lib/rooms";
+import { BRIEF_SECTIONS, ROOM_TYPES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
