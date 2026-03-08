@@ -4,13 +4,14 @@ import { cn } from "@/lib/utils";
 
 interface StyleCardProps {
   label: string;
+  description?: string;
   imageUrl: string;
   attribution?: string;
   selected: boolean;
   onClick: () => void;
 }
 
-const StyleCard = ({ label, imageUrl, attribution, selected, onClick }: StyleCardProps) => {
+const StyleCard = ({ label, description, imageUrl, attribution, selected, onClick }: StyleCardProps) => {
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
@@ -51,9 +52,12 @@ const StyleCard = ({ label, imageUrl, attribution, selected, onClick }: StyleCar
         )}
       </div>
 
-      {/* Label + attribution */}
+      {/* Label + description + attribution */}
       <div className="px-3 py-3 text-left">
         <p className="label-style text-foreground">{label}</p>
+        {description && (
+          <p className="mt-1 text-[11px] leading-snug text-muted-foreground">{description}</p>
+        )}
         {attribution && (
           <p className="mt-1 truncate text-[10px] font-light text-muted-foreground">{attribution}</p>
         )}
