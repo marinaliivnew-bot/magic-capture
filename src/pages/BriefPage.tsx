@@ -14,6 +14,7 @@ const BriefPage = () => {
   const [project, setProject] = useState<any>(null);
   const [brief, setBrief] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
