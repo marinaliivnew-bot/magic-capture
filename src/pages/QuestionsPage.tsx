@@ -149,14 +149,19 @@ const QuestionsPage = () => {
             <HelpCircle className="h-5 w-5 text-info" />
             Уточняющие вопросы
           </h2>
-          {questions.length === 0 ? (
+          {questions.length === 0 && !reanalyzing ? (
             <div className="rounded-lg border border-border bg-card p-8 text-center">
               <p className="text-muted-foreground">
                 Вопросы появятся после AI-анализа брифа.
               </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Подключение AI будет в следующем этапе.
-              </p>
+              <Button
+                className="mt-4"
+                onClick={handleReanalyze}
+                disabled={reanalyzing}
+              >
+                <Sparkles className="mr-2 h-4 w-4" />
+                Запустить AI-анализ
+              </Button>
             </div>
           ) : (
             <div className="space-y-4">
