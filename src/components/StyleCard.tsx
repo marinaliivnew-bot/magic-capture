@@ -52,9 +52,12 @@ const StyleCard = ({ label, description, imageUrl, attribution, selected, onClic
         )}
       </div>
 
-      {/* Label + attribution */}
+      {/* Label + description + attribution */}
       <div className="px-3 py-3 text-left">
         <p className="label-style text-foreground">{label}</p>
+        {description && (
+          <p className="mt-1 text-[11px] leading-snug text-muted-foreground">{description}</p>
+        )}
         {attribution && (
           <p className="mt-1 truncate text-[10px] font-light text-muted-foreground">{attribution}</p>
         )}

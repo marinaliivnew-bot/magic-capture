@@ -32,4 +32,4 @@ export const MATERIAL_CARDS = [
 // For dislikes block — union of styles + colors
 export const DISLIKE_CARDS = [...STYLE_CARDS, ...COLOR_CARDS];
 
-export type StyleCardDef = { key: string; label: string; query: string };
+export type StyleCardDef = { key: string; label: string; query: string; description?: string };

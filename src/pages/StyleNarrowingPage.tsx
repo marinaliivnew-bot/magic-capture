@@ -204,6 +204,7 @@ const StyleNarrowingPage = () => {
               <StyleCard
                 key={card.key}
                 label={card.label}
+                description={"description" in card ? (card as any).description : undefined}
                 imageUrl={images[card.key]?.url || ""}
                 attribution={images[card.key]?.attribution || ""}
                 selected={(selections[currentStep.key] || []).includes(card.key)}
