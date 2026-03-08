@@ -259,16 +259,53 @@ export async function generateBoard(projectId: string, briefText: string, projec
   }
   const result = await resp.json();
 
-  // Save blocks to DB
+  // Collect all search queries to fetch real images
+  const allQueries: Record<string, string> = {};
+  (result.blocks || []).forEach((b: any, i: number) => {
+    (b.search_queries || []).forEach((q: string, j: number) => {
+      allQueries[`board_${i}_${j}`] = q;
+    });
+  });
+
+  // Fetch real images via edge function
+  let imageMap: Record<string, { url: string; attribution: string }> = {};
+  try {
+    const imgResp = await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/fetch-style-images`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({ queries: allQueries }),
+      }
+    );
+    if (imgResp.ok) {
+      const imgData = await imgResp.json();
+      imageMap = imgData.images || {};
+    } else {
+      console.error("fetch-style-images error:", imgResp.status);
+    }
+  } catch (e) {
+    console.error("Failed to fetch board images:", e);
+  }
+
+  // Save blocks to DB with real image URLs
   const blocksToSave = (result.blocks || []).map((b: any, i: number) => ({
     block_type: b.block_type,
     caption: b.caption,
     sort_order: i,
-    images: (b.search_queries || []).map((q: string) => ({
-      url: `https://source.unsplash.com/800x600/?${encodeURIComponent(q)}`,
-      source_type: "unsplash_auto",
-      note: q,
-    })),
+    images: (b.search_queries || []).map((q: string, j: number) => {
+      const key = `board_${i}_${j}`;
+      const img = imageMap[key];
+      return {
+        url: img?.url || "",
+        source_type: "unsplash_auto",
+        attribution: img?.attribution || "",
+        note: q,
+      };
+    }),
   }));
 
   await saveBoardBlocks(projectId, blocksToSave);
