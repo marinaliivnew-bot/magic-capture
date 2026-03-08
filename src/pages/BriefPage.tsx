@@ -5,7 +5,7 @@ import { getRooms } from "@/lib/rooms";
 import { BRIEF_SECTIONS, ROOM_TYPES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress";
+import { Progress, getProgressTextColor } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { ArrowLeft, Search, LayoutGrid, Save, Loader2, Sparkles } from "lucide-react";
 
