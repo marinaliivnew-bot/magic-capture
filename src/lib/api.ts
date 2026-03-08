@@ -239,3 +239,62 @@ export async function analyzeBrief(projectId: string, briefText: string, project
 
   return result;
 }
+
+// Board generation
+export async function generateBoard(projectId: string, briefText: string, projectContext?: string) {
+  const resp = await fetch(
+    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-board`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ briefText, projectContext }),
+    }
+  );
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error || `Board generation failed: ${resp.status}`);
+  }
+  const result = await resp.json();
+
+  // Save blocks to DB
+  const blocksToSave = (result.blocks || []).map((b: any, i: number) => ({
+    block_type: b.block_type,
+    caption: b.caption,
+    sort_order: i,
+    images: (b.search_queries || []).map((q: string) => ({
+      url: `https://source.unsplash.com/800x600/?${encodeURIComponent(q)}`,
+      source_type: "unsplash_auto",
+      note: q,
+    })),
+  }));
+
+  await saveBoardBlocks(projectId, blocksToSave);
+
+  return result;
+}
+  const resp = await fetch(
+    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-brief`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ briefText, projectContext }),
+    }
+  );
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error || `Analysis failed: ${resp.status}`);
+  }
+  const result = await resp.json();
+
+  // Save results to DB
+  await saveIssues(projectId, result.issues || []);
+  await saveQuestions(projectId, result.questions || []);
+
+  return result;
+}
