@@ -101,6 +101,7 @@ const BriefPage = () => {
           >
             <Settings className="h-5 w-5" strokeWidth={1.5} />
           </button>
+        </div>
       </header>
 
       <div className="mx-auto max-w-content px-12 py-16">
