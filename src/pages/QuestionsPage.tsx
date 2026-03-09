@@ -163,6 +163,10 @@ const QuestionsPage = () => {
             <ArrowLeft className="h-5 w-5" strokeWidth={1.5} />
           </button>
           <span className="font-display text-xl flex-1">Вопросы и противоречия</span>
+          <Button onClick={handleExportBriefPDF} variant="outline" size="sm">
+            <Download className="mr-2 h-4 w-4" />
+            PDF
+          </Button>
           <span className="caption-style">{project?.name}</span>
         </div>
       </header>
