@@ -108,6 +108,31 @@ const QuestionsPage = () => {
 
     const contradictions = issues.filter((i) => i.type === "contradiction");
 
+    // Project info section
+    const constraints = (project?.constraints as Record<string, string>) || {};
+    const projectInfoParts: string[] = [];
+    if (project?.rooms_description) projectInfoParts.push(`<div style="margin-bottom:12px;"><strong style="font-size:13px;color:#888;">Описание помещений:</strong><p style="font-size:15px;line-height:1.6;margin:4px 0 0;color:#333;">${project.rooms_description}</p></div>`);
+    if (constraints.budget) projectInfoParts.push(`<div><strong style="font-size:13px;color:#888;">Бюджет:</strong> <span style="font-size:15px;color:#333;">${constraints.budget}</span></div>`);
+    if (constraints.timeline) projectInfoParts.push(`<div><strong style="font-size:13px;color:#888;">Сроки:</strong> <span style="font-size:15px;color:#333;">${constraints.timeline}</span></div>`);
+    if (constraints.taboos) projectInfoParts.push(`<div><strong style="font-size:13px;color:#888;">Табу:</strong> <span style="font-size:15px;color:#333;">${constraints.taboos}</span></div>`);
+    if (constraints.must_haves) projectInfoParts.push(`<div><strong style="font-size:13px;color:#888;">Must-have:</strong> <span style="font-size:15px;color:#333;">${constraints.must_haves}</span></div>`);
+    if (constraints.nice_to_haves) projectInfoParts.push(`<div><strong style="font-size:13px;color:#888;">Nice-to-have:</strong> <span style="font-size:15px;color:#333;">${constraints.nice_to_haves}</span></div>`);
+    if (project?.raw_input) projectInfoParts.push(`<div style="margin-top:12px;"><strong style="font-size:13px;color:#888;">Заметки:</strong><p style="font-size:15px;line-height:1.6;margin:4px 0 0;color:#333;">${project.raw_input}</p></div>`);
+
+    const projectInfoHtml = projectInfoParts.length > 0
+      ? `<h2 style="font-size:20px;margin:0 0 16px;">Данные проекта</h2><div style="margin-bottom:32px;">${projectInfoParts.join("")}</div>`
+      : "";
+
+    // Rooms section
+    const roomsHtml = rooms.length > 0
+      ? `<div style="margin-bottom:32px;"><h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin:0 0 8px;">Помещения</h3><ul style="margin:0;padding-left:20px;">${rooms.map((r: any) => {
+          const typeLabel = ROOM_TYPES.find(t => t.value === r.room_type)?.label || r.room_type;
+          let line = `${r.name} (${typeLabel})`;
+          if (r.dimensions_text) line += ` — ${r.dimensions_text}`;
+          return `<li style="font-size:15px;line-height:1.8;color:#333;">${line}</li>`;
+        }).join("")}</ul></div>`
+      : "";
+
     const briefHtml = BRIEF_SECTIONS.map(
       ({ key, label }) =>
         `<div style="margin-bottom:20px;"><h3 style="font-size:13px;text-transform:uppercase;letter-spacing:0.1em;color:#888;margin:0 0 6px;">${label}</h3><p style="font-size:15px;line-height:1.6;margin:0;color:#333;">${(brief as any)?.[key] || "не указано"}</p></div>`
@@ -129,7 +154,7 @@ const QuestionsPage = () => {
         ).join("")
       : "";
 
-    printWindow.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${project?.name || "Бриф"}</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:700px;margin:40px auto;padding:0 24px;color:#222;}h1{font-size:28px;font-weight:300;margin-bottom:4px;}@media print{body{margin:20px auto;}}</style></head><body><h1>${project?.name || "Проект"}</h1><p style="font-size:13px;color:#888;margin-bottom:32px;">${new Date().toLocaleDateString("ru-RU")}</p><h2 style="font-size:20px;margin-bottom:16px;">Бриф</h2>${briefHtml}${contradictionsHtml}${questionsHtml}<p style="text-align:center;font-size:12px;color:#aaa;margin-top:48px;font-style:italic;">Документ сформирован автоматически</p></body></html>`);
+    printWindow.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${project?.name || "Бриф"}</title><style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:700px;margin:40px auto;padding:0 24px;color:#222;}h1{font-size:28px;font-weight:300;margin-bottom:4px;}@media print{body{margin:20px auto;}}</style></head><body><h1>${project?.name || "Проект"}</h1><p style="font-size:13px;color:#888;margin-bottom:32px;">${new Date().toLocaleDateString("ru-RU")}</p>${projectInfoHtml}${roomsHtml}<h2 style="font-size:20px;margin-bottom:16px;">Бриф</h2>${briefHtml}${contradictionsHtml}${questionsHtml}<p style="text-align:center;font-size:12px;color:#aaa;margin-top:48px;font-style:italic;">Документ сформирован автоматически</p></body></html>`);
     printWindow.document.close();
     setTimeout(() => printWindow.print(), 400);
   };
