@@ -17,6 +17,7 @@ const QuestionsPage = () => {
   const [brief, setBrief] = useState<any>(null);
   const [issues, setIssues] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
+  const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [reanalyzing, setReanalyzing] = useState(false);
 
