@@ -76,7 +76,15 @@ const ConceptBoard = () => {
 
       const planNote = project?.plan_url ? `\nПлан помещения: ${project.plan_url}` : "";
       const descNote = project?.rooms_description ? `\nОписание: ${project.rooms_description}` : "";
-      const context = `Помещения:\n${roomsContext}${descNote}${planNote}\nЗаметки: ${project?.raw_input || "нет"}`;
+      
+      // Full context with all brief fields
+      const usersInfo = (brief as any)?.users_of_space ? `\nСостав семьи и пользователи: ${(brief as any).users_of_space}` : "";
+      const scenariosInfo = (brief as any)?.scenarios ? `\nСценарии: ${(brief as any).scenarios}` : "";
+      const styleLikes = (brief as any)?.style_likes ? `\nСтилевые предпочтения: ${(brief as any).style_likes}` : "";
+      const styleDislikes = (brief as any)?.style_dislikes ? `\nАнтипатии: ${(brief as any).style_dislikes}` : "";
+      const constraintsPractical = (brief as any)?.constraints_practical ? `\nОграничения: ${(brief as any).constraints_practical}` : "";
+      
+      const context = `Помещения проекта:\n${roomsContext}${descNote}${planNote}${usersInfo}${scenariosInfo}${styleLikes}${styleDislikes}${constraintsPractical}\nЗаметки: ${project?.raw_input || "нет"}`;
 
       await generateBoard(projectId, briefText, context);
       
