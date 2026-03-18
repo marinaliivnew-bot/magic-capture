@@ -14,7 +14,24 @@ const Index = () => {
   const loadProjects = async () => {
     try {
       const data = await getProjects();
-      setProjects(data || []);
+      if (!data || data.length === 0) {
+        setProjects([]);
+        return;
+      }
+      const projectsWithCompleteness = await Promise.all(
+        data.map(async (project: any) => {
+          try {
+            const brief = await getBrief(project.id);
+            return {
+              ...project,
+              completeness_score: brief?.completeness_score || 0,
+            };
+          } catch {
+            return { ...project, completeness_score: 0 };
+          }
+        })
+      );
+      setProjects(projectsWithCompleteness);
     } catch (e) {
       console.error(e);
     } finally {
