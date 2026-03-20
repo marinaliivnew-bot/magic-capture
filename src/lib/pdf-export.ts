@@ -96,7 +96,19 @@ export function generateFullPDF(data: PdfData, options: PdfOptions = {}) {
         const label = BOARD_BLOCK_TYPES.find(b => b.type === block.block_type)?.label || block.block_type;
         const images = (block.board_images || [])
           .filter((img: any) => img.url)
-          .map((img: any) => `<li><a href="${img.url}" style="color:#A07850;">${img.note || img.url}</a></li>`)
+          .map((img: any) => {
+            const note = img.note || "";
+            return `
+              <li>
+                <img
+                  src="${img.url}"
+                  alt="${note}"
+                  class="board-image"
+                />
+                ${note ? `<div class="image-note">${note}</div>` : ""}
+              </li>
+            `;
+          })
           .join("");
         return `<div class="board-block"><h3>${label}</h3>${block.caption ? `<p>${block.caption}</p>` : ""}${images ? `<ul class="image-links">${images}</ul>` : ""}</div>`;
       }).join("")
@@ -131,6 +143,8 @@ li{line-height:1.8;}
 .board-block p{color:#333;}
 .image-links{margin-top:4px;}
 .image-links li{font-size:13px;line-height:1.6;}
+.board-image{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border-radius:6px;margin:6px 0 0;}
+.image-note{font-size:12px;color:#A07850;margin-top:4px;}
 .footer{text-align:center;font-size:12px;color:#aaa;margin-top:48px;font-style:italic;}
 @media print{body{margin:20px auto;}}
 </style></head><body>
